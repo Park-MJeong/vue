@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>firstVue</title>
+</head>
+<body>
+  <h1>{{data}}</h1>
+</body>
+<script src="https://unpkg.com/vue"></script> <!-- html에서 vue문법연습 -->
+<script>
+  let m = {data : '박민정'};
+  let vm = Vue.createApp({
+    name : 'test', //vue 컴포넌트 이름
+
+    data(){
+      return m;
+    }
+  }).mount('h1');
+</script>
+</html>
