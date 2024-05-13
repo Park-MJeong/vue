@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>반복 렌더링 디렉티브1</title>
+</head>
+<body>
+  <div id="app">
+    <h2>반복 렌더링 테스트</h2>
+    <ul>
+      <li v-for="(item,index) in items" :key="index"> <!-- items의 요소를 item에 넘겨줌, for each문 -->
+        {{index}} : {{item}}
+      </li>
+    </ul>
+  </div>
+</body>
+<script src="https://unpkg.com/vue"></script> <!-- html에서 vue문법연습 -->
+<script>
+  const vm =Vue.createApp({
+    data(){
+      return {
+        items : ['류호근','홍길동','장보고','전우치','임꺽정']
+      }
+    }
+  }).mount('#app');
+</script>
+</html>
