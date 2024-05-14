@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계산된 속성을 이용한 클래스 바인딩</title>
+    <style>
+    .score {
+    border: solid 1px black;
+    }
+    .warning {
+    background-color: skyblue;
+    color: purple;
+    vertical-align: middle; /* 수직 중앙 정렬 */
+    margin-left: 10px; /* 좌측 여백 추가 */
+    padding: 0 5px; /* 내부 여백 설정 */
+    border-radius: 5px; /* 경계선 둥글게 처리 */
+    }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- :class="info" warning 뒤 조건식이 true라면 warning조건을 적용해줌 -->
+        점수 : <input type=text class="score" v-model.number="scores" :class="info">
+
+        <!-- v-show="info.warning" info안의 warning의 조건식이 false면 화면에 나타나지 않고
+        true라면 warning 스타일적용하고 텍스트도 보임-->
+        <span class="warning" v-show="info.warning">입력 확인!</span>
+
+        <!-- <span class="warning" v-show="scores < 1 || scores > 100">입력 확인!</span> -->
+
+        <span :class="info" v-show="info">입력 확인!</span>
+
+        
+
+    </div>
+</body>
+<script src="https://unpkg.com/vue"></script>
+<script>
+    const app = Vue.createApp({
+        name : 'test',
+        data(){
+            return {scores : 0}
+        },
+        computed : {
+            info(){
+                // css클래스명 :true
+                return {warning : this.scores < 1 || this.scores > 100}
+            },
+        },
+    }).mount('#app')
+</script>
+</html>

@@ -7,13 +7,16 @@
 </head>
 <body>
   <div id="app">
-      이름 : <input type="text" v-model.trim="name" placeholder="영문 두글자 이상을 입력하세요" /><br />
-      <ul>
-        <li v-for="c in contacts">{{c.name}} : {{c.tel}}</li>
-      </ul>
-      <div v-show="isLoading">검색중</div>
-    </div>
+    <!-- .trim : input의 공백제거 -->
+    이름 : <input type="text" v-model.trim="searchName" placeholder="영문 두글자 이상을 입력하세요" /><br>
+    <ul>
+      <li v-for="c in contacts">{{c.name}} : {{c.tel}}</li>
+    </ul>
+    <!-- 조건이 false면 display=none -->
+    <div v-show="isLoading">검색중</div>
+  </div>
 </body>
+
 
 <script src="https://unpkg.com/vue"></script>
 <!-- 내외부 url을 요청 할 수 있음. -->
@@ -21,16 +24,20 @@
 <!-- _.debounce, 함수가 한 번에 여러 번 호출되는것을 방지 -->
 <script src="https://unpkg.com/lodash"></script>
 <script>
+  // 외부 api의 시작루트 url임,안에 있는 메서드를 하나씩 호출할때마다 /~~적어줌 
+  // 아래 코드에 /contacts_long/search/부분같은...?
   const BASEURL = 'https://contactsvc.bmaster.kro.kr';
   let vm = Vue.createApp({
       name:'test',
       data() {
           return {
-              name : "", contacts : [], isLoading:false
+            // contacts :검색결과가 담길 배열,  
+            searchName : "", contacts : [], isLoading:false
           }
       },
+      // 비동기 통신시 사용, 데이터의 변경을 감지,갱신
       watch: {
-        name(current) { // name 속성을 관찰하여 값이 변경될 때마다 호출되는 핸들러
+        searchName(current) { // search 속성을 관찰하여 값이 변경될 때마다 호출되는 핸들러,current:변경될값이 담긴 매개변수
           if (current.length >= 2) {
             this.fetchContacts(); // 두 글자 이상일 때 메소드 호출
           } else {
@@ -39,12 +46,14 @@
         },
       },
       methods: {
-        fetchContacts: _.debounce(function () { 
-          this.isLoading = true;
+        // 입력이 종료된후(_.debounce) 0.3초(300ms)뒤에 실행할 메서드
+      fetchContacts: _.debounce(function () { 
+        this.isLoading = true;/* isLoading: 검색 중일때 검색중을 표시함(0.3초동안) */
 
-          axios.get(BASEURL + `/contacts_long/search/${this.name}`).then((response) => {
-            this.isLoading = false;
-            this.contacts = response.data;
+        // get:요청을 보냄 response:응답객체,해당url을 다녀와서 리턴받은 데이터를 가지고있음
+        axios.get(BASEURL + `/contacts_long/search/${this.searchName}`).then((response) => {
+            this.isLoading = false;/* 검색중을 지우고 */
+            this.contacts = response.data;/* 응답받은 데이터를 contacts배열에 담음 */
           });
         }, 300),
       },
