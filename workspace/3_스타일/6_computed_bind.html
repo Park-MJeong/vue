@@ -28,8 +28,11 @@
         <span class="warning" v-show="info.warning">입력 확인!</span>
 
         <!-- <span class="warning" v-show="scores < 1 || scores > 100">입력 확인!</span> -->
-
-        <span :class="info" v-show="info">입력 확인!</span>
+        
+        <!-- class 계속적용,텍스트도 계속 보임 -->
+        <!-- <span class="warning" v-show="info">입력 확인!</span> -->
+        <!-- class가 조건만족시 적용되나 텍스트는 계속보여짐 -->
+        <!-- <span :class="info" v-show="info">입력 확인!</span> -->
 
         
 
