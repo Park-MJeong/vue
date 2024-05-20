@@ -24,11 +24,13 @@
 </head>
 <body>
     <div id="app">
-        <input type="checkbox" v-model="isBorder">테두리 적용 여부<br>
+        <input type="checkbox" v-model="isborder">테두리 적용 여부<br>
         <!-- border를 지정할지말지 삼항연산자 사용,체크박스 isBorder가 true면 border적용,아니라면 공백 -->
         <button class="staticStyle" :class="[color, isborder ? border : '']">1테스트</button>
-        <button :class="border">2테스트</button>
-        <button :class="[layout, color, border]">3테스트</button>
+        <!-- {'스타일 클래스명' : true/false값을 가지는 데이터,true이면 해당 클래스 추가됨} -->
+        <button class="staticStyle" :class="[color, {'btnBorder' : isborder}]">테스트</button>
+        <button :class="border">3테스트</button>
+        <button :class="[layout, color, border]">4테스트</button>
     </div>
 </body>
 <script src="https://unpkg.com/vue"></script>
@@ -40,7 +42,7 @@
                 color : 'btnColor',
                 layout : 'btnLayout',
                 border : 'btnBorder',
-                isBorder : false
+                isborder : false
             }
         }
     }).mount('#app')
